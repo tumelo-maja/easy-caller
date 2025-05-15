@@ -3,24 +3,29 @@ import os
 import openai
 
 # Retrieve the OpenAI API key from environment variable
-openai_api_key = os.getenv("OPENAI_API_KEY")
+# openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # Check if the key was successfully retrieved
-if openai_api_key:
-    print("API Key successfully retrieved!")
-else:
-    print("API Key not found!")
+# if openai_api_key:
+#     print("API Key successfully retrieved!")
+# else:
+#     print("API Key not found!")
 
+from openai import OpenAI
 
-# Retrieve the OpenAI API key from environment variable
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# Example request to the OpenAI API (using GPT-3)
-response = openai.completions.create(
-  engine="text-davinci-003",
-  prompt="What is the capital of France?",
-  max_tokens=50
+client = OpenAI(
+    base_url="https://api.llm7.io/v1",
+    api_key="not-needed"  # still required by the client, but can be anything
 )
 
-# Print the response
-# print(response.choices[0].text.strip())
+# user_question = input('Enter your question:\n')
+user_question= "Say you are awesome Tumelo!"
+response = client.chat.completions.create(
+    model="gpt-4o-mini-2024-07-18",
+    messages=[
+        {"role": "user", "content": user_question}
+    ]
+)
+
+print(response.choices[0].message.content)
+
